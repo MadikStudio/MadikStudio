@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../data/site.json';
+---
+
+<BaseLayout title="Контакты — Madik Studio" description="Связаться с Madik Studio по вопросу нового проекта.">
+  <section class="contact shell">
+    <p class="eyebrow">Связаться</p>
+    <h1>Обсудим ваш проект</h1>
+    <p class="contact__intro">Расскажите о пространстве, задачах и желаемых сроках. Для первого разговора достаточно краткого описания и нескольких фотографий объекта.</p>
+    <div class="contact__grid">
+      <div><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></div>
+      <div><span>Телефон</span><a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a></div>
+      <div><span>Локация</span><p>{site.location}</p></div>
+    </div>
+  </section>
+</BaseLayout>

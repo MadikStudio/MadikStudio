@@ -1,0 +1,33 @@
+---
+import site from '../data/site.json';
+import { withBase } from '../lib/paths';
+
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/projects/', label: 'Проекты' },
+  { href: '/about/', label: 'О дизайнере' },
+  { href: '/contacts/', label: 'Контакты' },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href={withBase('/')} aria-label="Madik Studio — главная">{site.studioName}</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+    <span>Меню</span>
+  </button>
+  <nav id="site-navigation" class="site-nav" aria-label="Основная навигация">
+    {links.map((link) => (
+      <a href={withBase(link.href)} aria-current={pathname.includes(link.href) ? 'page' : undefined}>{link.label}</a>
+    ))}
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('.site-nav');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    nav?.toggleAttribute('data-open', !open);
+  });
+</script>

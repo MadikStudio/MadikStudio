@@ -1,0 +1,18 @@
+---
+import site from '../data/site.json';
+import { withBase } from '../lib/paths';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div>
+    <p class="footer-brand">{site.studioName}</p>
+    <p>Интерьеры · Экстерьеры</p>
+  </div>
+  <div class="footer-links">
+    <a href={withBase('/projects/')}>Проекты</a>
+    <a href={withBase('/about/')}>О дизайнере</a>
+    <a href={`mailto:${site.email}`}>{site.email}</a>
+  </div>
+  <p class="footer-copy">© {year}</p>
+</footer>

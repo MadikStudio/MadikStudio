@@ -1,0 +1,52 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.published);
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${data.title} — Madik Studio`} description={data.excerpt} image={data.cover}>
+  <article class="project-page">
+    <header class="project-hero shell">
+      <p class="eyebrow">{data.category}</p>
+      <h1>{data.title}</h1>
+      {data.subtitle && <p class="project-subtitle">{data.subtitle}</p>}
+      <dl class="project-facts">
+        <div><dt>Год</dt><dd>{data.year}</dd></div>
+        <div><dt>Локация</dt><dd>{data.location}</dd></div>
+        {data.area && <div><dt>Площадь</dt><dd>{data.area}</dd></div>}
+      </dl>
+    </header>
+
+    <figure class="project-cover shell shell--wide">
+      <img src={withBase(data.cover)} alt={`Проект «${data.title}»`} />
+    </figure>
+
+    <div class="project-story shell">
+      <p class="lead">{data.excerpt}</p>
+      <div class="prose"><Content /></div>
+    </div>
+
+    {data.gallery.length > 0 && (
+      <section class="project-gallery shell shell--wide" aria-label={`Фотографии проекта «${data.title}»`}>
+        {data.gallery.map((image, index) => (
+          <figure class:list={['gallery-item', index % 3 === 2 && 'gallery-item--narrow']}>
+            <img src={withBase(image)} alt={`${data.title}, фотография ${index + 1}`} loading="lazy" />
+          </figure>
+        ))}
+      </section>
+    )}
+  </article>
+</BaseLayout>

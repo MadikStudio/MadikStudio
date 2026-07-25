@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+---
+<BaseLayout title="Страница не найдена — Madik Studio">
+  <section class="not-found shell">
+    <p class="eyebrow">Ошибка 404</p>
+    <h1>Этой страницы нет</h1>
+    <a class="text-link" href={withBase('/')}>Вернуться на главную <span>↗</span></a>
+  </section>
+</BaseLayout>
